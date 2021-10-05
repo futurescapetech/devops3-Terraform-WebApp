@@ -3,7 +3,7 @@ provider "aws" {
     profile = var.profile
 }
 
-resource "aws_instance" "webapp_node" {
+resource "aws_instance" "webapp" {
     ami = "ami-0fadaffaadf470b9c"
     instance_type = "t2.micro"
     key_name = "rabbitmq"
