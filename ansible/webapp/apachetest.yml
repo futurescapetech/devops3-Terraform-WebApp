@@ -1,0 +1,19 @@
+---
+- name: Install Apache Web Server
+  hosts:  tag_group_rmq
+  remote_user: ubuntu
+  tasks: 
+  - name: Ensure apache2 package is latest 
+    apt: 
+      name: apache2 
+      state: latest
+    notify: Start and enabled apache2 service
+    become: True 
+
+  handlers:
+   - name: Start and enabled apache2 service
+     service: 
+      name: apache2 
+      state: started 
+      enabled: True
+     become: True
