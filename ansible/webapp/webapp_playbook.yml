@@ -4,14 +4,14 @@
       tasks:
         - name: Webapp configure
           apt:
-	      name: apache2
-	      state: latest
+	  name: apache2
+	  state: latest
 	  become: yes
 	- name: index.html
 	  copy:
-	      content: "this is ansible playbook"
-	      dest: /var/www/html/index.html
+	  content: "this is ansible playbook"
+	  dest: /var/www/html/index.html
         - name: restart apache2
 	  service:
-	      name: apache2
-	      state: restarted
+	  name: apache2
+	  state: restarted
