@@ -1,0 +1,40 @@
+---
+    - hosts: webservers
+      tasks:
+        - name: install apache
+          apt:
+            name: apache2
+            state: latest
+            become: yes
+
+        - name: index.html
+          copy:
+            content: "This is Ansible Playbook"
+            dest: /var/www/html/index.html
+
+        - name: create web folder to deploy code
+          shell: chdir=/var/www/html creates=/var/www/html/test1.myweb.com tar -xzf test1.myweb.com.tar.gz -C /var/www/html
+          
+        - name: index.html
+          copy:
+            content: "Welcome to Futurescapetech!!!!!!!!"
+            dest: /var/www/html/test1.myweb.com/index.html
+
+        - name: Push web vhost code to remote server
+          copy:
+            src: test1.myweb.com.conf
+            dest: /etc/apache2/sites-available/test1.myweb.com.conf
+            owner: root
+            group: root
+            mode: '0744'
+
+        - name: enable website dependencies
+          become: yes
+          shell: |
+            apachectl configtest -y
+            a2ensite /etc/apache2/sites-available/test1.myweb.com.conf -y
+
+        - name: restart apache2
+          service:
+              name: apache2
+              state: restarted
